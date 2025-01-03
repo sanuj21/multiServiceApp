@@ -1,0 +1,12 @@
+node_modules
+services/userService/node_modules
+services/userService/.env
+
+services/blogService/node_modules
+services/blogService/.env
+
+services/commentService/node_modules
+services/commentService/.env
+
+
+.env
