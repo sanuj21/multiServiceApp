@@ -1,0 +1,3 @@
+CREATE SCHEMA IF NOT EXISTS user_service;
+CREATE SCHEMA IF NOT EXISTS blog_service;
+CREATE SCHEMA IF NOT EXISTS comment_service;
