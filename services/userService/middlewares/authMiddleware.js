@@ -6,7 +6,8 @@ import asyncHandler from 'express-async-handler';
 /**
  * @desc  Function to protect routes from unauthorized access
  */
-const protect = asyncHandler(async (req, res, next) => {
+
+const verifyUser = asyncHandler(async (req, res, next) => {
   let token;
   if (
     req.headers?.authorization &&
@@ -34,8 +35,10 @@ const protect = asyncHandler(async (req, res, next) => {
     );
   }
 
-  req.user = currentUser;
-  next();
+  res.status(200).json({
+    status: 'success',
+    user: currentUser
+  });
 });
 
-export default protect;
+export default { verifyUser };

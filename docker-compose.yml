@@ -1,28 +1,42 @@
 services:
+
   migration-service:
     build: ./prisma
     command: >
       sh -c "npx prisma migrate dev --name init && npx prisma generate"
     volumes:
-      - prisma_client:/usr/src/app/node_modules/@prisma/client
       - ./prisma:/usr/src/app/prisma
+      - ./.env:/usr/src/app/.env
     depends_on:
       database:
         condition: service_healthy
-
 
   user-service:
     build: ./services/userService
     ports:
       - "3000:3000"
     command: >
-      sh -c "pnpm start"
+      sh -c "npx prisma generate && pnpm start"
     volumes:
       - ./services/userService:/usr/src/app
-      - prisma_client:/usr/src/app/node_modules/@prisma/client
+      - ./prisma:/usr/src/app/prisma
     depends_on:
       database:
         condition: service_healthy
+
+  blog-service:
+    build: ./services/blogService
+    ports:
+      - "3001:3001"
+    command: >
+      sh -c "npx prisma generate && pnpm start"
+    volumes:
+      - ./services/blogService:/usr/src/app
+      - ./prisma:/usr/src/app/prisma
+    depends_on:
+      database:
+        condition: service_healthy
+
 
   database:
     build: ./services/database
@@ -42,4 +56,3 @@ services:
 
 volumes:
   database_data:
-  prisma_client:
