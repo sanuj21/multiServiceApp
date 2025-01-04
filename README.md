@@ -35,38 +35,33 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
 
 ## **Setup Instructions**
 
-### **Prerequisites**
-
-- Node.js
-- Docker
-- AWS Account
-
-### **Steps**
+### **Local Setup**
 
 1. **Clone the repository**:
 
    ```bash
-   git clone
+   git clone https://github.com/sanuj21/multiServiceApp.git
    ```
 
 2. **Set up environment variables**:
 
-   - Create a `.env` file in the root directory of each service.
-   - Add the following environment variables to the `.env` file:
+   - Create a `.env.local` file in the root directory.
 
      ```bash
-     # User Service
-     PORT=3000
-     JWT_SECRET=your_secret_key
+     USER_SERVICE_PORT=3000
+     BLOG_SERVICE_PORT=3001
+     COMMENT_SERVICE_PORT=3002
 
-     # Blog Service
-     PORT=3001
-
-     # Comment Service
-     PORT=3002
-
-     # Database
+     DATABASE_USER=user
+     DATABASE_PASSWORD=password
+     DATABASE_PORT=5432
      DATABASE_URL=postgresql://user:password@host:port/db_name
+     DATABASE_NAME=db_name
+     ENVIRONMENT=local
+     # JWT
+     JWT_SECRET=secret
+     JWT_COOKIE_EXPIRES_IN=30
+     TOKEN_VALIDITY=30d
      ```
 
 3. **Navigate to the project directory**:
@@ -78,7 +73,7 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
 4. **Start the services**:
 
    ```bash
-    docker-compose up --build
+    docker-compose --env-file .env.local up --build
    ```
 
 5. **Access the services**:
@@ -87,4 +82,10 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
    - Blog Service: `http://localhost:3001`
    - Comment Service: `http://localhost:3002`
 
+### **AWS Deployment**
+
 ---
+
+## **API Documentation**
+
+For API documentation, refer to the [DOCUMENTATION.md](DOCUMENTATION.md) file.

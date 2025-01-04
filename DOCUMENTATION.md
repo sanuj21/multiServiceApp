@@ -17,6 +17,7 @@
   ```json
   {
     "status": "success",
+    "message": "User registered successfully",
     "token": "random_dummy_token"
   }
   ```
@@ -29,6 +30,7 @@
   ```json
   {
     "email": "johndoe@example.com",
+    "message": "User logged in successfully",
     "password": "securepassword"
   }
   ```
@@ -44,7 +46,10 @@
 #### **GET /users/:id** (Protected)
 
 - **Description**: Get user profile by ID.
-- **Request**: None
+- **Request** (**Headers**):
+  ```http
+  Authorization: Bearer <token>
+  ```
 - **Response**:
   ```json
   {
@@ -73,6 +78,7 @@
   ```json
   {
     "status": "success",
+    "message": "User updated successfully",
     "data": {
       "id": 1,
       "username": "janedoe",
@@ -86,7 +92,10 @@
 #### **DELETE /users/:id** (Protected)
 
 - **Description**: Delete user profile by ID.
-- **Request**: None
+- **Request** (**Headers**):
+  ```http
+  Authorization: Bearer <token>
+  ```
 - **Response**:
   ```json
   {
@@ -100,7 +109,11 @@
 #### **GET /blogs?page=1&&limit=10**
 
 - **Description**: Get paginated blog posts.
-- **Request**: None
+- **Request** (**Headers**):
+
+  ```http
+  Authorization: Bearer <token>
+  ```
 
 - **Response**:
   ```json
@@ -114,7 +127,13 @@
         "authorId": 2,
         "createdAt": "2021-09-01T00:00:00.000Z"
       }
-    ]
+      ...
+    ],
+    "meta": {
+      "totalBlogs": 30,
+      "currentPage": 1,
+      "totalPages": 3
+    }
   }
   ```
 
@@ -158,7 +177,10 @@
 #### **DELETE /blogs/:id** (Protected)
 
 - **Description**: Delete blog post by ID.
-- **Request**: None
+- **Request** (**Headers**):
+  ```http
+  Authorization: Bearer <token>
+  ```
 - **Response**:
 
   ```json
@@ -171,7 +193,10 @@
   #### **GET /blogs/:id**
 
 - **Description**: Get blog post by ID.
-- **Request**: None
+- **Request** (**Headers**):
+  ```http
+  Authorization: Bearer <token>
+  ```
 - **Response**:
   ```json
   {
@@ -209,7 +234,7 @@
 #### **GET /comments/:postId** (Protected)
 
 - **Description**: Get comments by blog post ID.
-- **Request**: None
+- **Request**:
 - **Response**:
   ```json
   {
