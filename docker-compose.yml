@@ -6,7 +6,7 @@ services:
       sh -c "npx prisma migrate dev --name init && npx prisma generate"
     volumes:
       - ./prisma:/usr/src/app/prisma
-      - ./.env:/usr/src/app/.env
+      - ./.env.local:/usr/src/app/.env
     depends_on:
       database:
         condition: service_healthy
@@ -16,7 +16,7 @@ services:
     ports:
       - "${USER_SERVICE_PORT}:${USER_SERVICE_PORT}"
     env_file:
-      - .env
+      - .env.local
     command: >
       sh -c "npx prisma generate && npm start"
     volumes:
@@ -33,7 +33,7 @@ services:
     ports:
       - "${BLOG_SERVICE_PORT}:${BLOG_SERVICE_PORT}"
     env_file:
-      - .env
+      - .env.local
     command: >
       sh -c "npx prisma generate && npm start"
     volumes:
@@ -50,7 +50,7 @@ services:
     ports:
       - "${COMMENT_SERVICE_PORT}:${COMMENT_SERVICE_PORT}"
     env_file:
-      - .env
+      - .env.local
     command: >
       sh -c "npx prisma generate && npm start"
     volumes:
@@ -68,7 +68,7 @@ services:
     ports:
       - "5432:5432"
     env_file:
-      - .env
+      - .env.local
     environment:
       POSTGRES_USER: DATABASE_USER
       POSTGRES_PASSWORD: DATABASE_PASSWORD

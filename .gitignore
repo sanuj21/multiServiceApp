@@ -10,4 +10,7 @@ services/commentService/.env
 
 
 .env
+.env.local
+.env.development
+.env.production
 todo.txt

@@ -2,6 +2,8 @@
 
 import app from './app.js';
 
-app.listen(process.env.PORT, () => {
-  console.log(`Blog service listening on port ${process.env.PORT}`);
+app.listen(process.env.BLOG_SERVICE_PORT, () => {
+  console.log(
+    `Blog service listening on port ${process.env.BLOG_SERVICE_PORT}`
+  );
 });

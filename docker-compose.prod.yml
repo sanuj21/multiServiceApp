@@ -6,14 +6,14 @@ services:
       sh -c "npx prisma migrate dev --name init && npx prisma generate"
     volumes:
       - ./prisma:/usr/src/app/prisma
-      - ./.env:/usr/src/app/.env
+      - ./.env.production:/usr/src/app/.env
 
   user-service:
     build: ./services/userService
     ports:
       - "${USER_SERVICE_PORT}:${USER_SERVICE_PORT}"
     env_file:
-      - .env
+      - .env.production
     command: >
       sh -c "npx prisma generate && npm start"
     volumes:
@@ -28,7 +28,7 @@ services:
     ports:
       - "${BLOG_SERVICE_PORT}:${BLOG_SERVICE_PORT}"
     env_file:
-      - .env
+      - .env.production
     command: >
       sh -c "npx prisma generate && npm start"
     volumes:
@@ -43,7 +43,7 @@ services:
     ports:
       - "${COMMENT_SERVICE_PORT}:${COMMENT_SERVICE_PORT}"
     env_file:
-      - .env
+      - .env.production
     command: >
       sh -c "npx prisma generate && npm start"
     volumes:
@@ -53,6 +53,3 @@ services:
       migration-service:
         condition: service_completed_successfully
 
-
-volumes:
-  database_data:
