@@ -18,7 +18,7 @@ services:
     env_file:
       - .env.local
     command: >
-      sh -c "npx prisma generate && npm start"
+      sh -c "npx prisma generate && pnpm start"
     volumes:
       - ./services/userService:/usr/src/app
       - ./prisma:/usr/src/app/prisma
@@ -35,7 +35,7 @@ services:
     env_file:
       - .env.local
     command: >
-      sh -c "npx prisma generate && npm start"
+      sh -c "npx prisma generate && pnpm start"
     volumes:
       - ./services/blogService:/usr/src/app
       - ./prisma:/usr/src/app/prisma
@@ -52,7 +52,7 @@ services:
     env_file:
       - .env.local
     command: >
-      sh -c "npx prisma generate && npm start"
+      sh -c "npx prisma generate && pnpm start"
     volumes:
       - ./services/commentService:/usr/src/app
       - ./prisma:/usr/src/app/prisma
@@ -70,9 +70,9 @@ services:
     env_file:
       - .env.local
     environment:
-      POSTGRES_USER: DATABASE_USER
-      POSTGRES_PASSWORD: DATABASE_PASSWORD
-      POSTGRES_DB: DATABASE_NAME
+      POSTGRES_USER: $DATABASE_USER
+      POSTGRES_PASSWORD: $DATABASE_PASSWORD
+      POSTGRES_DB: $DATABASE_NAME
     volumes:
       - database_data:/var/lib/postgresql/data
     healthcheck:
