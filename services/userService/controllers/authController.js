@@ -7,8 +7,8 @@ import bcrypt from 'bcryptjs';
 /**
  * @desc  Function to create and send token to the user
  */
-const createSendToken = (user, statusCode, res, next) => {
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+const createSendToken = (user, statusCode, res, next, msg) => {
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     expiresIn: process.env.TOKEN_VALIDITY
   });
 
@@ -21,14 +21,14 @@ const createSendToken = (user, statusCode, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: user,
+    message: msg,
     token
   });
 };
 
 const register = asyncHandler(async (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body;
-  const role = req.body.role || 'USER';
+  const role = req.body.role?.toUpperCase() || 'USER';
 
   const user = await prisma.user.findFirst({
     where: { email }
@@ -59,7 +59,7 @@ const register = asyncHandler(async (req, res, next) => {
     }
   });
 
-  createSendToken(newUser, 200, res, next);
+  createSendToken(newUser, 200, res, next, 'User registered successfully');
 });
 
 const login = asyncHandler(async (req, res, next) => {
@@ -68,13 +68,14 @@ const login = asyncHandler(async (req, res, next) => {
     return next(new AppError('Please provide email and password'));
 
   const user = await prisma.user.findFirst({ where: { email } });
+  console.log(user);
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
   if (!user || !isPasswordCorrect)
     return next(new AppError('Incorrect email or password', 401));
 
-  createSendToken(user, 200, res, next);
+  createSendToken(user, 200, res, next, 'User logged in successfully');
 });
 
 // Route when users clicks on logout
@@ -87,4 +88,13 @@ const logout = (req, res, next) => {
   });
 };
 
-export default { register, login, logout };
+const verifyUser = asyncHandler(async (req, res, next) => {
+  if (!req.user) return next(new AppError('User not found', 404));
+
+  res.status(200).json({
+    status: 'success',
+    user: req.user
+  });
+});
+
+export default { register, login, logout, verifyUser };

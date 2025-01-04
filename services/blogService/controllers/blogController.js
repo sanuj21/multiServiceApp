@@ -62,6 +62,7 @@ const createBlog = asyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     status: 'success',
+    message: 'Blog created successfully',
     data: blog
   });
 });
@@ -85,6 +86,7 @@ const updateBlog = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    message: 'Blog updated successfully',
     data: blog
   });
 });
@@ -107,6 +109,7 @@ const deleteBlog = asyncHandler(async (req, res, next) => {
 
   res.status(204).json({
     status: 'success',
+    message: 'Blog deleted successfully',
     data: null
   });
 });

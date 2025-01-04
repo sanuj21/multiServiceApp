@@ -7,9 +7,6 @@ services:
     volumes:
       - ./prisma:/usr/src/app/prisma
       - ./.env:/usr/src/app/.env
-    depends_on:
-      database:
-        condition: service_healthy
 
   user-service:
     build: ./services/userService
@@ -23,8 +20,6 @@ services:
       - ./services/userService:/usr/src/app
       - ./prisma:/usr/src/app/prisma
     depends_on:
-      database:
-        condition: service_healthy
       migration-service:
         condition: service_completed_successfully
 
@@ -40,8 +35,6 @@ services:
       - ./services/blogService:/usr/src/app
       - ./prisma:/usr/src/app/prisma
     depends_on:
-      database:
-        condition: service_healthy
       migration-service:
         condition: service_completed_successfully
 
@@ -57,29 +50,9 @@ services:
       - ./services/commentService:/usr/src/app
       - ./prisma:/usr/src/app/prisma
     depends_on:
-      database:
-        condition: service_healthy
       migration-service:
         condition: service_completed_successfully
 
-
-  database:
-    build: ./services/database
-    ports:
-      - "5432:5432"
-    env_file:
-      - .env
-    environment:
-      POSTGRES_USER: DATABASE_USER
-      POSTGRES_PASSWORD: DATABASE_PASSWORD
-      POSTGRES_DB: DATABASE_NAME
-    volumes:
-      - database_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d multi_service_db"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
 
 volumes:
   database_data:

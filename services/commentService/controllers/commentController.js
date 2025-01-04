@@ -66,6 +66,7 @@ const createComment = asyncHandler(async (req, res, next) => {
 
   res.status(201).json({
     status: 'success',
+    message: 'Comment added successfully',
     data: {
       comment
     }
