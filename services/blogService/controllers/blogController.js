@@ -2,13 +2,36 @@ import asyncHandler from 'express-async-handler';
 import prisma from '../prisma.js';
 import AppError from '../utils/appError.js';
 
-const getBlogs = asyncHandler(async (req, res, next) => {
-  const blogs = await prisma.blog.findMany();
+const getPaginatedBlogs = asyncHandler(async (page, limit) => {
+  const offset = (page - 1) * limit;
 
-  res.status(200).json({
-    status: 'success',
-    data: blogs
+  const blogs = await prisma.blog.findMany({
+    skip: offset,
+    take: limit,
+    orderBy: {
+      createdAt: 'desc'
+    }
   });
+
+  const totalBlogs = await prisma.blog.count();
+
+  return {
+    data: blogs,
+    meta: {
+      totalBlogs,
+      currentPage: page,
+      totalPages: Math.ceil(totalBlogs / limit)
+    }
+  };
+});
+
+const getBlogs = asyncHandler(async (req, res, next) => {
+  const page = req.query.page ? parseInt(req.query.page) : 1;
+  const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+
+  const result = await getPaginatedBlogs(page, limit);
+
+  res.status(200).json(result);
 });
 
 const getBlog = asyncHandler(async (req, res, next) => {
