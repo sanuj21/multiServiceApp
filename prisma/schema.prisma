@@ -43,6 +43,10 @@ model Comment {
   postId      Int
   author      User     @relation(fields: [authorId], references: [id])
   authorId    Int
+  parent      Comment? @relation("ChildComment", fields: [parentId], references: [id])
+  parentId    Int?
+  children    Comment[] @relation("ChildComment")
+
   createdAt   DateTime @default(now())
   @@map("comment_service.comments")
 }
