@@ -9,6 +9,6 @@ app.use('/healthCheck', (req, res) => {
   res.send('User service is up and running');
 });
 
-app.use('/users', userRouter);
+app.use('/', userRouter);
 
 export default app;

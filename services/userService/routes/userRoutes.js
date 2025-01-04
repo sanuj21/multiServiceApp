@@ -7,10 +7,10 @@ const router = express.Router();
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
-router.post('/verify-user', authMiddleware.verifyUser);
 
+router.post('/users/verify-user', authMiddleware.verifyUser);
 router
-  .route('/:id')
+  .route('/users/:id')
   .get(userController.getUser)
   .put(userController.updateUser)
   .delete(userController.deleteUser);
