@@ -1,7 +1,6 @@
-// This is the entry point for the user service. It starts the service and listens on port 3000.
-
+// This is the entry point for the user service.
 import app from './app.js';
 
-app.listen(3000, () => {
-  console.log('Users service listening on port 3000');
+app.listen(process.env.PORT, () => {
+  console.log(`User service listening on port ${process.env.PORT}`);
 });

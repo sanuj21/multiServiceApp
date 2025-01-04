@@ -1,5 +1,5 @@
-import prisma from '../prisma.js';
 import asyncHandler from 'express-async-handler';
+import prisma from '../prisma.js';
 import AppError from '../utils/appError.js';
 
 const getBlogs = asyncHandler(async (req, res, next) => {

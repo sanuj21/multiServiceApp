@@ -23,6 +23,8 @@ services:
     depends_on:
       database:
         condition: service_healthy
+      migration-service:
+        condition: service_completed_successfully
 
   blog-service:
     build: ./services/blogService
@@ -36,6 +38,23 @@ services:
     depends_on:
       database:
         condition: service_healthy
+      migration-service:
+        condition: service_completed_successfully
+
+  comment-service:
+    build: ./services/commentService
+    ports:
+      - "3002:3002"
+    command: >
+      sh -c "npx prisma generate && pnpm start"
+    volumes:
+      - ./services/commentService:/usr/src/app
+      - ./prisma:/usr/src/app/prisma
+    depends_on:
+      database:
+        condition: service_healthy
+      migration-service:
+        condition: service_completed_successfully
 
 
   database:
