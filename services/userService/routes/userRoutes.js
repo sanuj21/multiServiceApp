@@ -8,15 +8,11 @@ const router = express.Router();
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 
-router.post(
-  '/users/verify-user',
-  authMiddleware.protect,
-  authController.verifyUser
-);
+router.post('/verify-user', authMiddleware.protect, authController.verifyUser);
 
 router.use(authMiddleware.protect);
 router
-  .route('/users/:id')
+  .route('/:id')
   .get(userController.getUser)
   .put(userController.updateUser)
   .delete(userController.deleteUser);
