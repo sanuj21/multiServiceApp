@@ -35,6 +35,12 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
 
 ## **Setup Instructions**
 
+### **Prerequisites for Local Setup**
+
+- **Git**: [Installation Guide](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- **Docker**: [Installation Guide](https://docs.docker.com/get-docker/)
+- **Docker Compose**: [Installation Guide](https://docs.docker.com/compose/install/)
+
 ### **Local Setup**
 
 1. **Clone the repository**:
