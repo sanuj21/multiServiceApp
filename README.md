@@ -161,13 +161,17 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
 
    - Launch a Managed Database and choose Postgres.
 
-3. **SSH into the Droplet**:
+3. **Create a ssh key**:
+
+   - Create an SSH key and add it to the Droplet.
+
+4. **SSH into the Droplet**:
 
    ```bash
    ssh root@<droplet-public-ip>
    ```
 
-4,5,6,7,8,9. **Repeat steps 4 to 9 from the AWS Deployment section**.
+**_Now, Repeat steps 4 to 9 from the AWS Deployment section_**.
 
 **Note: I have used the same services but on DigitalOcean because while running docker on AWS EC2 free tier, it was not able to run all the services due to memory constraints(out of memory error).**
 
@@ -177,11 +181,23 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
 - **Blog Service**: http://143.244.143.187/blogs
 - **Comment Service**: http://143.244.143.187/comments
 
+  **_Note: I could not apply SSL certificate to the services as I needed a domain for that, and freenom is not providing free domain registration at the moment, will update the links once I get a domain._**
+
 ### **Test Credentials**
 
 - **User Service**:
   - Email: `admin@gmail.com`
   - Password: `anuj1234`
+
+## **Trade-offs**
+
+1. **Database Schema**:
+
+   - I have used a single database with separate schemas for each service rather than using separate databases for each service. This is because we can't establish clear relationship between entities if we use separate databases for each service.
+
+2. **Service Communication**:
+
+   - I have used REST API for service communication instead of gRPc mainly because of the simplicity of REST API for this use case.
 
 ## **API Documentation**
 
