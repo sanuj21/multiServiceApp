@@ -72,13 +72,11 @@ const createBlog = asyncHandler(async (req, res, next) => {
 });
 
 const updateBlog = asyncHandler(async (req, res, next) => {
-  const blog = await prisma.blog.findFirst({
+  let blog = await prisma.blog.findFirst({
     where: { id: parseInt(req.params.id) }
   });
 
   if (!blog) return next(new AppError('Blog not found', 404));
-
-  console.log(blog.authorId, req.user.id);
 
   if (blog.authorId != req.user.id)
     return next(
