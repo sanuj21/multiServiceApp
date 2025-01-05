@@ -38,6 +38,10 @@ const register = asyncHandler(async (req, res, next) => {
     return next(new AppError('Email Already Exist!! Please login', 400));
   }
 
+  if (!name || !email || !password || !confirmPassword) {
+    return next(new AppError('Please provide all the required fields', 400));
+  }
+
   if (password !== confirmPassword) {
     return next(new AppError('Passwords do not match', 400));
   }
@@ -68,7 +72,8 @@ const login = asyncHandler(async (req, res, next) => {
     return next(new AppError('Please provide email and password'));
 
   const user = await prisma.user.findFirst({ where: { email } });
-  console.log(user);
+
+  if (!user) return next(new AppError('Incorrect email or password', 401));
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
 

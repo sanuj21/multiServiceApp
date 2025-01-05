@@ -8,9 +8,10 @@
 - **Request**:
   ```json
   {
-    "username": "johndoe",
+    "name": "johndoe",
     "email": "johndoe@example.com",
-    "password": "securepassword"
+    "password": "securepassword",
+    "confirmPassword": "securepassword"
   }
   ```
 - **Response**:
@@ -30,7 +31,6 @@
   ```json
   {
     "email": "johndoe@example.com",
-    "message": "User logged in successfully",
     "password": "securepassword"
   }
   ```
@@ -39,6 +39,7 @@
   ```json
   {
     "status": "success",
+    "message": "User logged in successfully",
     "token": "random_dummy_token"
   }
   ```

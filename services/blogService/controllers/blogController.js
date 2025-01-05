@@ -80,7 +80,7 @@ const updateBlog = asyncHandler(async (req, res, next) => {
     );
 
   await prisma.blog.update({
-    where: { id: req.params.id },
+    where: { id: parseInt(req.params.id) },
     data: req.body
   });
 
