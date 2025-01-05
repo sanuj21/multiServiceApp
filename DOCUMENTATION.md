@@ -2,7 +2,7 @@
 
 ## **User Service**
 
-#### **POST /register**
+#### **POST /users/register**
 
 - **Description**: Register a new user.
 - **Request**:
@@ -22,7 +22,7 @@
   }
   ```
 
-#### **POST /login**
+#### **POST /users/login**
 
 - **Description**: Login an existing user.
 - **Request**:

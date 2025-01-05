@@ -103,12 +103,9 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
 4. **Install Docker and Docker Compose**:
 
    ```bash
-   sudo yum update -y
-   sudo amazon-linux-extras install docker
-   sudo service docker start
-   sudo usermod -a -G docker ec2-user
-   sudo yum install -y git
-   sudo yum install -y docker-compose
+   sudo apt update -y
+   sudo apt install docker.io -y
+   sudo apt install docker-compose -y
    ```
 
 5. **Clone the repository**:
@@ -148,11 +145,43 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
    ```
 
 9. **Access the services**:
-   - User Service: `http://<ec2-public-ip>:3000`
-   - Blog Service: `http://<ec2-public-ip>:3001`
-   - Comment Service: `http://<ec2-public-ip>:3002`
+   - User Service: `http://<ec2-public-ip>/users`
+   - Blog Service: `http://<ec2-public-ip>/blogs`
+   - Comment Service: `http://<ec2-public-ip>/comments`
 
 ---
+
+### **DigitalOcean Deployment**
+
+1. **Create a Droplet**:
+
+   - Launch a Droplet.
+
+2. **Create a Managed Database**:
+
+   - Launch a Managed Database and choose Postgres.
+
+3. **SSH into the Droplet**:
+
+   ```bash
+   ssh root@<droplet-public-ip>
+   ```
+
+4,5,6,7,8,9. **Repeat steps 4 to 9 from the AWS Deployment section**.
+
+**Note: I have used the same services but on DigitalOcean because while running docker on AWS EC2 free tier, it was not able to run all the services due to memory constraints(out of memory error).**
+
+### **Live Demo**
+
+- **User Service**: http://143.244.143.187/users
+- **Blog Service**: http://143.244.143.187/blogs
+- **Comment Service**: http://143.244.143.187/comments
+
+### **Test Credentials**
+
+- **User Service**:
+  - Email: `admin@gmail.com`
+  - Password: `anuj1234`
 
 ## **API Documentation**
 
