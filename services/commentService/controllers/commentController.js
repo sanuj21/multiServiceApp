@@ -3,6 +3,10 @@ import prisma from '../prisma.js';
 import AppError from '../utils/appError.js';
 
 const createComment = asyncHandler(async (req, res, next) => {
+  if (req.body.postId === undefined || req.body.content === undefined) {
+    return next(new AppError('Please provide all the required fields', 400));
+  }
+
   const { postId, content } = req.body;
 
   const parentId = req.body.parentId;

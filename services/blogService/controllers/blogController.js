@@ -48,6 +48,10 @@ const getBlog = asyncHandler(async (req, res, next) => {
 });
 
 const createBlog = asyncHandler(async (req, res, next) => {
+  if (!req.body.title || !req.body.content) {
+    return next(new AppError('Please provide all the required fields', 400));
+  }
+
   const { title, content } = req.body;
 
   const blog = await prisma.blog.create({
@@ -74,12 +78,14 @@ const updateBlog = asyncHandler(async (req, res, next) => {
 
   if (!blog) return next(new AppError('Blog not found', 404));
 
-  if (blog.authorId !== req.user.id)
+  console.log(blog.authorId, req.user.id);
+
+  if (blog.authorId != req.user.id)
     return next(
       new AppError('You are not authorized to update this blog', 403)
     );
 
-  await prisma.blog.update({
+  blog = await prisma.blog.update({
     where: { id: parseInt(req.params.id) },
     data: req.body
   });
@@ -93,12 +99,12 @@ const updateBlog = asyncHandler(async (req, res, next) => {
 
 const deleteBlog = asyncHandler(async (req, res, next) => {
   const blog = await prisma.blog.findFirst({
-    where: { id: req.params.id }
+    where: { id: parseInt(req.params.id) }
   });
 
   if (!blog) return next(new AppError('Blog not found', 404));
 
-  if (blog.authorId !== req.user.id)
+  if (blog.authorId != req.user.id)
     return next(
       new AppError('You are not authorized to delete this blog', 403)
     );
