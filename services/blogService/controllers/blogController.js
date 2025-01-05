@@ -74,7 +74,7 @@ const updateBlog = asyncHandler(async (req, res, next) => {
 
   if (!blog) return next(new AppError('Blog not found', 404));
 
-  if (blog.userId !== req.user.id)
+  if (blog.authorId !== req.user.id)
     return next(
       new AppError('You are not authorized to update this blog', 403)
     );
@@ -98,7 +98,7 @@ const deleteBlog = asyncHandler(async (req, res, next) => {
 
   if (!blog) return next(new AppError('Blog not found', 404));
 
-  if (blog.userId !== req.user.id)
+  if (blog.authorId !== req.user.id)
     return next(
       new AppError('You are not authorized to delete this blog', 403)
     );

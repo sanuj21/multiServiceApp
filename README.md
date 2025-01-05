@@ -150,10 +150,52 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
     docker-compose -f docker-compose.prod.yml --env-file .env.production up --build
    ```
 
-9. **Access the services**:
-   - User Service: `http://<ec2-public-ip>/users`
-   - Blog Service: `http://<ec2-public-ip>/blogs`
-   - Comment Service: `http://<ec2-public-ip>/comments`
+9. **Configure Ngnix as a reverse proxy**:
+
+   - Install Nginx:
+
+     ```bash
+     sudo apt install nginx -y
+     ```
+
+   - Create a new Nginx configuration file:
+
+     ```bash
+     sudo vi /etc/nginx/conf.d/multiServiceApp.conf
+     ```
+
+     - Add the following configuration:
+
+       ```nginx
+       server {
+           listen 80;
+           server_name <ec2-public-ip>;
+
+           location /users {
+               proxy_pass http://localhost:3000;
+           }
+
+           location /blogs {
+               proxy_pass http://localhost:3001;
+           }
+
+           location /comments {
+               proxy_pass http://localhost:3002;
+           }
+       }
+       ```
+
+   - Restart Nginx:
+
+     ```bash
+     sudo systemctl restart nginx
+     ```
+
+10. **Access the services**:
+
+- User Service: `http://<ec2-public-ip>/users`
+- Blog Service: `http://<ec2-public-ip>/blogs`
+- Comment Service: `http://<ec2-public-ip>/comments`
 
 ---
 
@@ -177,9 +219,9 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
    ssh root@<droplet-public-ip>
    ```
 
-**_Now, Repeat steps 4 to 9 from the AWS Deployment section_**.
+**_Now, Repeat steps 4 to 10 from the AWS Deployment section_**.
 
-**Note: I have used the same services but on DigitalOcean because while running docker on AWS EC2 free tier, it was not able to run all the services due to memory constraints(out of memory error).**
+**Note:** I have used the same services but on DigitalOcean because while running docker on AWS EC2 free tier, it was not able to run all the services due to memory constraints(out of memory error).
 
 ### **Live Demo**
 
@@ -187,7 +229,7 @@ A deployable multi-service blog platform built using Docker and AWS. This projec
 - **Blog Service**: http://143.244.143.187/blogs
 - **Comment Service**: http://143.244.143.187/comments
 
-  **_Note: I could not apply SSL certificate to the services as I needed a domain for that, and freenom is not providing free domain registration at the moment, will update the links once I get a domain._**
+  **Note:** I could not apply SSL certificate to the services as I needed a domain for that, and freenom is not providing free domain registration at the moment, will update the links once I get a domain.
 
 ### **Test Credentials**
 
